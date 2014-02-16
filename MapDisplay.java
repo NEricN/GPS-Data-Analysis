@@ -106,6 +106,14 @@ class MapCanvas extends JPanel implements MouseMotionListener
 
     public void mouseDragged(MouseEvent e)
     {
+        removeClosestToMouseRange(e.getX(), e.getY(), 50.0);
+        _image = null;
+        _message = "";
+        repaint();
+    }
+
+    public void mouseMoved(MouseEvent e)
+    {
         Node temp = closestToMouseRange(e.getX(), e.getY(), 50.0);
         if(temp != null)
         {
@@ -124,16 +132,6 @@ class MapCanvas extends JPanel implements MouseMotionListener
             _image = null;
         }
         repaint();
-    }
-
-    public void mouseMoved(MouseEvent e)
-    {
-        if(_image != null || _message != "")
-        {
-            _image = null;
-            _message = "";
-            repaint();
-        }
     }
 
     private Node closestToMouseRange(int x, int y, double range)
@@ -158,6 +156,35 @@ class MapCanvas extends JPanel implements MouseMotionListener
             }
         }
         return minDistance <= range ? closestNode : null;
+    }
+
+    private void removeClosestToMouseRange(int x, int y, double range)
+    {
+        Double minDistance = 9999999.0;
+        Node closestNode = null;
+        ArrayList<Node> nodeList = null;
+        for(int i = 0; i < _graphs.size(); i++)
+        {
+            ArrayList<Node> nodes = _graphs.get(i).getGraph();
+            for(int j = 0; j < nodes.size(); j++)
+            {
+                Node node = nodes.get(j);
+                int nX = (int)(_scaleX*(node.latitude() - _minLat));
+                int nY = (int)(_scaleY*(_maxLong - (node.longitude() - _minLong)));
+
+                Double tempDistance = Math.sqrt((x - nX)*(x - nX) + (y - nY)*(y - nY));
+                if(tempDistance < minDistance)
+                {
+                    minDistance = tempDistance;
+                    closestNode = node;
+                    nodeList = nodes;
+                }
+            }
+        }
+        if(minDistance <= range)
+        {
+            nodeList.remove(closestNode);
+        }
     }
 }
 
