@@ -24,7 +24,7 @@ public class Node
 		_idCount++;
 	}
 
-	public double distance_to_node(Node node)
+	public double distanceToNode(Node node)
 	{
 		double distance = 
 		       haversine_distance(_latitude, node.latitude(),
@@ -35,7 +35,7 @@ public class Node
 		return distance;
 	}
 
-	public double distance_to_point(double lat, double lon)
+	public double distanceToPoint(double lat, double lon)
 	{
 		return haversine_distance(_latitude, lat, _longitude, lon);
 	}
@@ -55,7 +55,7 @@ public class Node
 		return _id;
 	}
 
-	private double haversine_distance(double lat1,double lat2,
+	private double haversineDistance(double lat1,double lat2,
 									  double long1,double long2)
 	{
 		double dLat = lat2 - lat1;
