@@ -8,7 +8,7 @@ public class Graph {
 	//Store nodes of graph in an arraylist
 	private ArrayList<Node> nodes;
 
-	private ArrayList<Node> _shortestPath;
+	private ArrayList<Node> _shortestPath, _shortestPath2;
 	
 	//Number of nodes in graph
 	private int size = 0;

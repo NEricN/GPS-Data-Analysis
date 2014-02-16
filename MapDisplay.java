@@ -104,7 +104,6 @@ class MapCanvas extends JPanel implements MouseMotionListener
 
                     node1 = node2;
                 }
-
                 g2d.setStroke(bs);
             }
         }
@@ -245,7 +244,7 @@ public class MapDisplay extends JFrame
 
         Graph testGraph = new Graph();
             testGraph.addNode(0, 0);
-        for(int i = 0; i < 50; i++)
+        for(int i = 0; i < 5; i++)
         {
             testGraph.addNode(Math.random()*800, Math.random()*800, testImage);
         }

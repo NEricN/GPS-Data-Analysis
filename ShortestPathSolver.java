@@ -4,9 +4,27 @@ import java.util.Random;
 
 public class ShortestPathSolver
 {
+	private static double curDistance = 0.0;
+	private static ArrayList<Node> solution;
+
 	public static ArrayList<Node> solve(Graph graph)
 	{
-		return AntColonySolver.solve(graph);
+		Solutions temp1 = DumbPathSolver.solve(graph);
+		Solutions temp2 = AntColonySolver.solve(graph);
+
+		return temp1.distance < temp2.distance ? temp1.path : temp2.path;
+	}
+}
+
+class Solutions
+{
+	public ArrayList<Node> path;
+	public double distance;
+
+	public Solutions(ArrayList<Node> path, double dist)
+	{
+		this.path = path;
+		distance = dist;
 	}
 }
 
@@ -15,10 +33,10 @@ class AntColonySolver
 	private static ArrayList<Node> _nodes;
 	private static HashMap _pheromones = new HashMap();
 		//format is id(node1)*10000 + id(node2)
-	private static int ANTS = 100000;
+	private static int ANTS = 10000;
 	private static Random rand = new Random();
 
-	public static ArrayList<Node> solve(Graph graph)
+	public static Solutions solve(Graph graph)
 	{
 		_pheromones.clear();
 		ArrayList<Node> solution = new ArrayList<Node>();
@@ -29,10 +47,11 @@ class AntColonySolver
 			ArrayList<Integer> routes = new ArrayList<Integer>();
 			ArrayList<Node> tempSol = new ArrayList<Node>();
 			_nodes = new ArrayList<Node>(graph.getGraph());
+			int k = rand.nextInt(_nodes.size());
 			double tempDistance = 0;
-			Node node1 = _nodes.get(0),
+			Node node1 = _nodes.get(k),
 				 node2;
-				_nodes.remove(0);
+				_nodes.remove(k);
 				tempSol.add(node1);
 			while(_nodes.size() > 0)
 			{
@@ -71,7 +90,8 @@ class AntColonySolver
 				distance = tempDistance;
 			}
 		}
-		return solution;
+		System.out.printf("Ant : %.2f\n", distance);
+		return new Solutions(solution, distance);
 	}
 
 	private static int calcHashId(int id1, int id2)
@@ -80,23 +100,37 @@ class AntColonySolver
 	}
 }
 
-class DumbPath
+class DumbPathSolver
 {
-	public static solve(Graph graph)
+	public static Solutions solve(Graph graph)
 	{
+		ArrayList<Node> solution = new ArrayList<Node>();
 		ArrayList<Node> nodes = new ArrayList<Node>(graph.getGraph());
 		Node node1 = nodes.get(0), node2;
 			nodes.remove(0);
+			solution.add(node1);
 		Double dist;
+		Double totalDistance = 0.0;
 
 		while(nodes.size() > 0)
 		{
 			node2 = null;
+			dist = Double.POSITIVE_INFINITY;
 			for(int i = 0; i < nodes.size(); i++)
 			{
-
+				if(node1.distanceToNode(nodes.get(i)) < dist)
+				{
+					node2 = nodes.get(i);
+					dist = node1.distanceToNode(nodes.get(i));
+				}
 			}
+			totalDistance += dist;
+			node1 = node2;
+			nodes.remove(node2);
+			solution.add(node2);
 		}
+		System.out.printf("Dumb : %.2f\n", totalDistance);
+		return new Solutions(solution, totalDistance);
 	}
 }
 
