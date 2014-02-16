@@ -12,6 +12,12 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import sun.misc.BASE64Decoder;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+
 
 class MapCanvas extends JPanel implements MouseMotionListener
 {
@@ -238,13 +244,29 @@ public class MapDisplay extends JFrame
         setLocationRelativeTo(null);
     }
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws IOException
     {
         Color[] colorArray = {Color.red, Color.blue, Color.black,
                               Color.green, Color.orange, Color.cyan,
                               Color.yellow, Color.magenta, Color.pink,
                               Color.gray, Color.darkGray, Color.lightGray};
-        BufferedImage testImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
+        //BufferedImage testImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
+        BufferedReader br = new BufferedReader(new FileReader("test.txt"));
+    	String str;
+    
+        	StringBuilder sb = new StringBuilder();
+        	String line = br.readLine();
+
+        while (line != null) {
+            sb.append(line);
+            sb.append("\n");
+            line = br.readLine();
+        }
+           str =  sb.toString();
+    	 
+    	//System.out.println(str);
+    	BufferedImage testImage = ImageDecode.decodeImage(str);
+    	//ImageIcon = new ImageIcon(img);
 
         Graph testGraph = new Graph();
             testGraph.addNode(0, 0);
@@ -256,6 +278,7 @@ public class MapDisplay extends JFrame
             testGraph.setColor(Color.BLUE);
 
         ArrayList<Graph> testGraphList = new ArrayList<Graph>();
+            //testGraphList.add(testGraph);
             
         ArrayList<Graph> clusters = Clusters.clustering(testGraph, Integer.parseInt(args[1]));
         for (int k = 0; k < clusters.size(); k++) {
