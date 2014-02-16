@@ -9,7 +9,7 @@ public class ShortestPathSolver
 
 	public static ArrayList<Node> solve(Graph graph)
 	{
-		Solutions temp1 = DumbPathSolver.solve(graph);
+		Solutions temp1 = DumbPathSolver2.solve(graph);
 		Solutions temp2 = (graph.getSize() < 40) ?AntColonySolver.solve(graph) : new Solutions(null, Double.POSITIVE_INFINITY);
 
 		return temp1.distance < temp2.distance ? temp1.path : temp2.path;
@@ -141,6 +141,56 @@ class DumbPathSolver
 
 		System.out.printf("Dumb : %.2f\n", totalDistance);
 		return new Solutions(solution, totalDistance);
+	}
+}
+
+class DumbPathSolver2
+{
+	public static Solutions solve(Graph graph)
+	{
+		ArrayList<Node> solution = null;
+		Double minDistance = Double.POSITIVE_INFINITY;
+		for(int j = 0; j < graph.getSize(); j++)
+		{
+			ArrayList<Node> nodes = new ArrayList<Node>(graph.getGraph());
+			ArrayList<Node> tempSolution = new ArrayList<Node>();
+			Node node1 = nodes.get(j), node2 = null;
+				nodes.remove(j);
+				tempSolution.add(node1);
+			Double dist;
+			Double totalDistance = 0.0;
+
+			while(nodes.size() > 0)
+			{
+				node2 = null;
+				dist = Double.POSITIVE_INFINITY;
+				for(int i = 0; i < nodes.size(); i++)
+				{
+					if(node1.distanceToNode(nodes.get(i)) < dist)
+					{
+						node2 = nodes.get(i);
+						dist = node1.distanceToNode(nodes.get(i));
+					}
+				}
+				totalDistance += dist;
+				node1 = node2;
+				nodes.remove(node2);
+				tempSolution.add(node2);
+			}
+
+			node1 = (Node)graph.getGraph().get(j);
+			tempSolution.add(node1);
+			totalDistance += node2.distanceToNode(node1);
+
+			if(totalDistance < minDistance)
+			{
+				solution = tempSolution;
+				minDistance = totalDistance;
+			}
+		}
+
+		System.out.printf("Dumb2 : %.2f\n", minDistance);
+		return new Solutions(solution, minDistance);
 	}
 }
 

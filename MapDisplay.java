@@ -16,6 +16,8 @@ import sun.misc.BASE64Decoder;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.File;
+import javax.imageio.*;
 
 
 
@@ -253,8 +255,13 @@ public class MapDisplay extends JFrame
                               Color.green, Color.orange, Color.cyan,
                               Color.yellow, Color.magenta, Color.pink,
                               Color.gray, Color.darkGray, Color.lightGray};
-        //BufferedImage testImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
-        BufferedReader br = new BufferedReader(new FileReader("test.txt"));
+        BufferedImage testImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
+        BufferedImage[] imageArr = {ImageIO.read(new File("test1.jpg")),
+                                    ImageIO.read(new File("test2.jpg")),
+                                    ImageIO.read(new File("test3.jpg")),
+                                    ImageIO.read(new File("test4.jpg")),
+                                    ImageIO.read(new File("test5.jpg"))};
+        /*BufferedReader br = new BufferedReader(new FileReader("test1.jpg"));
     	String str;
     
         	StringBuilder sb = new StringBuilder();
@@ -269,13 +276,13 @@ public class MapDisplay extends JFrame
     	 
     	//System.out.println(str);
     	BufferedImage testImage = ImageDecode.decodeImage(str);
-    	//ImageIcon = new ImageIcon(img);
+    	//ImageIcon = new ImageIcon(img);*/
 
         Graph testGraph = new Graph();
             testGraph.addNode(0, 0);
         for(int i = 0; i < Integer.parseInt(args[0]); i++)
         {
-            testGraph.addNode(Math.random()*800, Math.random()*800, testImage);
+            testGraph.addNode(Math.random()*800, Math.random()*800, imageArr[i%5]);
         }
             testGraph.addNode(800,800);
             testGraph.setColor(Color.BLUE);
