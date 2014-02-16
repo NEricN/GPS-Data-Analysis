@@ -3,11 +3,9 @@ import java.util.Scanner;
 
 public class Parser {
 
-	public Parser(String fileName) {
+	public static void parseFile (String filename) {
 		File file = new File(filename);
-	}
-
-	public parseFile (File file) {
+		Graph myGraph = new Graph();
 		double lat, longi;
 		String pic;
 		Scanner inputStream = new Scanner(file);
@@ -17,6 +15,8 @@ public class Parser {
 			longi = inputStream.next();
 			pic = inputStream.next();
 			Node myNode = new Node(lat, longi, pic);
+			myGraph.addNode(myNode);
 		}
 	}
+
 }
