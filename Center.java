@@ -1,4 +1,4 @@
-import java.util.arrayList;
+import java.util.ArrayList;
 
 //Object representing center for clustering use
 public class Center {
@@ -20,11 +20,22 @@ public class Center {
         return nodes;
     }
 
+    public void updateLongi(Double longi) {
+        longitude = longi;
+    }
+
+    public void updateLat(Double lat) {
+        latitude = lat;
+    }
     public double getLong() {
         return longitude;
     }
 
     public double getLat() {
         return latitude;
+    }
+
+    public void emptyList() {
+        nodes.clear();
     }
 }
