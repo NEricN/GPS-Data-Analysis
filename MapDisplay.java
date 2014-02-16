@@ -101,6 +101,10 @@ class MapCanvas extends JPanel implements MouseListener
     public void mouseClicked(MouseEvent e)
     {
     }
+
+    public void mouseDragged(MouseEvent e)
+    {
+    }
 }
 
 public class MapDisplay extends JFrame

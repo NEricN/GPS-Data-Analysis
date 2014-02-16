@@ -12,20 +12,26 @@ public class Node
 
 	private HashMap _distances;
 	
-	//private Image myPic;
+	private String _pic;
 
 	private static int _idCount = 0;
 
-	public Node(double latitude, double longitude, long pic)
+	public Node(double latitude, double longitude)
 	{
 		_latitude = latitude;
 		_longitude = longitude;
-		_picture = pic;
+		_picture = "";
 
 		_distances = new HashMap();
 
 		_id = _idCount;
 		_idCount++;
+	}
+
+	public Node(double latitude, double longitude, String pic)
+	{
+		this(latitude, longitude);
+		_picture = pic;
 	}
 
 	public double distanceToNode(Node node)
