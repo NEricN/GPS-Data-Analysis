@@ -38,22 +38,25 @@ public class Graph {
 		Node temp = new Node(latitude, longitude, image);
 		nodes.add(temp);
 		size ++;
+
+		_shortestPath = null;
 	}
 
 	//Add new node
 	public void addNode(Node n) {
-            maxLat = (n.latitude() > maxLat)? n.latitude(): maxLat;
-            minLat = (n.latitude() < minLat)? n.latitude(): minLat;
-            maxLong = (n.longitude() > maxLong)? n.longitude(): maxLong;
-            minLong = (n.longitude() < minLong)? n.longitude(): minLong;
-            nodes.add(n);
-            size++;
-        }
+        maxLat = (n.latitude() > maxLat)? n.latitude(): maxLat;
+        minLat = (n.latitude() < minLat)? n.latitude(): minLat;
+        maxLong = (n.longitude() > maxLong)? n.longitude(): maxLong;
+        minLong = (n.longitude() < minLong)? n.longitude(): minLong;
+        nodes.add(n);
+        size++;
+    }
         
         //Remove Node
     public void removeNode(Node n) {
       	nodes.remove(n);
       	size--;
+      	_shortestPath = null;
     }
 
 	//Return graph
