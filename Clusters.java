@@ -7,7 +7,8 @@ public class Clusters {
     //main clustering algorithm, returns a list of smaller graphs to find routes
     public static ArrayList<Graph> clustering(Graph g, int N) {
         ArrayList<Node> nodes = g.getGraph();
-        ArrayList<Center> centers = generateCenters(g, N);
+        //ArrayList<Center> centers = generateCenters(g, N);
+        ArrayList<Center> centers = kMeanPlus(g, N);
         ArrayList<Graph> graphs = new ArrayList<Graph>();
         int iterations = 5000;
         while (iterations > 0) {
@@ -91,5 +92,49 @@ public class Clusters {
             cent.updateLat(lat / (double) nodes.size());
             cent.emptyList();
         }
+    }
+    
+    //K-mean++ initilization algorithm
+    private static ArrayList<Center> kMeanPlus(Graph g, int N) {
+        ArrayList<Center> result = new ArrayList<Center>();
+        Random r = new Random();
+        ArrayList<Node> nodes = g.getGraph();
+        int random = r.nextInt(g.size());
+        Double lat, longi;
+        while (result.size() != N) {
+            if (result.size() == 0) {
+                Node node = nodes.get(random);
+                Center cent1 = new Center(node.longitude(), node.latitude());
+                result.add(cent1);
+            }
+            HashMap<Node, Double> probDist = new HashMap<Node, Double>();
+            Double totalDist = 0.0;
+            for (int i = 0; i < nodes.size(); i++) {
+                Double dist = calcDistance(result.get(result.size() - 1),
+                                           nodes.get(i));
+                probDist.put(nodes.get(i), dist);
+                totalDist += dist;
+            }
+            longi = 0.0;
+            lat = 0.0;
+            for (Node n : probDist.keySet()) {
+                Double val = probDist.get(n);
+                if ((Math.pow(val, 2.0) / Math.pow(totalDist, 2.0))
+                    > r.nextDouble()) {
+                    longi = n.longitude();
+                    lat = n.latitude();
+                    break;
+                }
+            }
+            if (longi == 0.0) {
+                random = r.nextInt(g.size());
+                Node node2 = nodes.get(random);
+                longi = node2.longitude();
+                lat = node2.latitude();
+            }
+            Center cent = new Center(longi, lat);
+            result.add(cent);
+        }
+        return result;
     }
 }
