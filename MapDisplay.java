@@ -240,6 +240,10 @@ public class MapDisplay extends JFrame
 
     public static void main(String[] args)
     {
+        Color[] colorArray = {Color.red, Color.blue, Color.black,
+                              Color.green, Color.orange, Color.cyan,
+                              Color.yellow, Color.magenta, Color.pink,
+                              Color.gray, Color.darkGray, Color.lightGray};
         BufferedImage testImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
 
         Graph testGraph = new Graph();
@@ -253,6 +257,12 @@ public class MapDisplay extends JFrame
 
         ArrayList<Graph> testGraphList = new ArrayList<Graph>();
             testGraphList.add(testGraph);
+            
+        ArrayList<Graph> clusters = Clusters.clustering(testGraph, 5);
+        for (int k = 0; k < clusters.size(); k++) {
+            clusters.get(k).setColor(colorArray[k % colorArray.length]);
+            testGraphList.add(clusters.get(k));
+        }
 
         MapDisplay md = new MapDisplay(testGraphList);
                md.setVisible(true);
