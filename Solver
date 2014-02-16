@@ -15,16 +15,16 @@ public class Solver {
 		
 		ArrayList<ArrayList> whichCenter = new ArrayList<ArrayList>();
 
-		for (int n = 0; n < nodes.size; n ++ ) {
+		for (int n = 0; n < centers.size(); n ++ ) {
 			ArrayList<Node> temp = new ArrayList<Node>();
-			Node centToAdd = centers.get(0);
-			for (int i = 1; i < centers.size(); i ++ ) {
-				if (centers.get(i).distanceToNode(n) > centToAdd) {
-					centToAdd = centers.get(i);
+			Node nodeToAdd = nodes.get(0);
+			for (int i = 0; i < nodes.size(); i ++ ) {
+				if (nodes.get(i).distanceToNode(centers.get(n)) > nodeToAdd) {
+					nodeToAdd = nodes.get(i);
 					temp.add(centToAdd);
 				}		
 			}
-			
+
 			whichCenter.add(temp);
 		}
 	}
