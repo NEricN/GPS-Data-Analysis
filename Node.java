@@ -10,6 +10,8 @@ public class Node
 	private int _id;
 
 	private HashMap _distances;
+	
+	private Image myPic;
 
 	private static int _idCount = 0;
 
@@ -67,5 +69,9 @@ public class Node
 			               Math.sin(dLong/2)*Math.sin(dLong/2)));
 
 		return distance;
+	}
+	
+	public void setPic(Image pic) {
+		myPic = pic;
 	}
 }
