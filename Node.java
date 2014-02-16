@@ -6,6 +6,7 @@ public class Node
 
 	private double _latitude;
 	private double _longitude;
+	private String _picture;
 
 	private int _id;
 
@@ -15,10 +16,11 @@ public class Node
 
 	private static int _idCount = 0;
 
-	public Node(double latitude, double longitude)
+	public Node(double latitude, double longitude, long pic)
 	{
 		_latitude = latitude;
 		_longitude = longitude;
+		_picture = pic;
 
 		_distances = new HashMap();
 
