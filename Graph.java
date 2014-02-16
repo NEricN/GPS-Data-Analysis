@@ -7,6 +7,8 @@ import java.awt.Color;
 public class Graph {
 	//Store nodes of graph in an arraylist
 	private ArrayList<Node> nodes;
+
+	private ArrayList<Node> _shortestPath;
 	
 	//Number of nodes in graph
 	private int size = 0;
@@ -85,5 +87,13 @@ public class Graph {
 
 	public void setColor(Color color) {
 		_color = color;
+	}
+
+	public ArrayList<Node> getShortestPath() {
+		if(_shortestPath == null)
+		{
+			_shortestPath = nodes;
+		}
+		return _shortestPath;
 	}
 }

@@ -62,6 +62,8 @@ class MapCanvas extends JPanel implements MouseMotionListener
     {
         BasicStroke bs = new BasicStroke(4, BasicStroke.CAP_SQUARE,
             BasicStroke.JOIN_ROUND);
+        BasicStroke bs2 = new BasicStroke(1, BasicStroke.CAP_SQUARE,
+            BasicStroke.JOIN_ROUND);
 
         Graphics2D g2d = (Graphics2D) g;
             g2d.setStroke(bs);
@@ -74,7 +76,8 @@ class MapCanvas extends JPanel implements MouseMotionListener
 
         for(int j = 0; j < _graphs.size(); j++)
         {
-            ArrayList<Node> nodes = _graphs.get(j).getGraph();
+            Graph curGraph = _graphs.get(j);
+            ArrayList<Node> nodes = curGraph.getGraph();
 
             g2d.setColor(_graphs.get(j).getColor());
 
@@ -82,10 +85,27 @@ class MapCanvas extends JPanel implements MouseMotionListener
             {
                 Node node = nodes.get(i);
 
-                int x = (int)(_scaleX*(node.latitude() - _minLat));
-                int y = (int)(_scaleY*(_maxLong - (node.longitude() - _minLong)));
+                int x = latToX(node.latitude());
+                int y = longToY(node.longitude());
 
                 g2d.drawLine(x, y, x, y);
+            }
+
+            if(curGraph.getShortestPath() != null)
+            {
+                g2d.setStroke(bs2);
+                nodes = curGraph.getShortestPath();
+                Node node1 = nodes.get(0), node2;
+                for(int i = 0; i < nodes.size() - 1; i++)
+                {
+                    node2 = nodes.get(i + 1);
+                    g2d.drawLine(latToX(node1.latitude()), longToY(node1.longitude()),
+                                 latToX(node2.latitude()), longToY(node2.longitude()));
+
+                    node1 = node2;
+                }
+
+                g2d.setStroke(bs);
             }
         }
 
@@ -119,8 +139,8 @@ class MapCanvas extends JPanel implements MouseMotionListener
         {
             //System.out.printf("%.2f, %.2f\n", temp.latitude(), temp.longitude());
             _message = "This node!";
-            _messageX = (int)(_scaleX*(temp.latitude() - _minLat));
-            _messageY = (int)(_scaleY*(_maxLong - (temp.longitude() - _minLong)));
+            _messageX = latToX(temp.latitude());
+            _messageY = longToY(temp.longitude());
 
             _image = temp.picture();
             _imageX = _messageX - (int)(_image.getWidth()/2);
@@ -144,8 +164,8 @@ class MapCanvas extends JPanel implements MouseMotionListener
             for(int j = 0; j < nodes.size(); j++)
             {
                 Node node = nodes.get(j);
-                int nX = (int)(_scaleX*(node.latitude() - _minLat));
-                int nY = (int)(_scaleY*(_maxLong - (node.longitude() - _minLong)));
+                int nX = latToX(node.latitude());
+                int nY = longToY(node.longitude());
 
                 Double tempDistance = Math.sqrt((x - nX)*(x - nX) + (y - nY)*(y - nY));
                 if(tempDistance < minDistance)
@@ -160,7 +180,7 @@ class MapCanvas extends JPanel implements MouseMotionListener
 
     private void removeClosestToMouseRange(int x, int y, double range)
     {
-        Double minDistance = 9999999.0;
+        Double minDistance = Double.POSITIVE_INFINITY;
         Node closestNode = null;
         Graph graph = null;
         for(int i = 0; i < _graphs.size(); i++)
@@ -169,8 +189,8 @@ class MapCanvas extends JPanel implements MouseMotionListener
             for(int j = 0; j < nodes.size(); j++)
             {
                 Node node = nodes.get(j);
-                int nX = (int)(_scaleX*(node.latitude() - _minLat));
-                int nY = (int)(_scaleY*(_maxLong - (node.longitude() - _minLong)));
+                int nX = latToX(node.latitude());
+                int nY = longToY(node.longitude());
 
                 Double tempDistance = Math.sqrt((x - nX)*(x - nX) + (y - nY)*(y - nY));
                 if(tempDistance < minDistance)
@@ -185,6 +205,16 @@ class MapCanvas extends JPanel implements MouseMotionListener
         {
             graph.removeNode(closestNode);
         }
+    }
+
+    private int latToX(double latitude)
+    {
+        return (int)(_scaleX*(latitude - _minLat));
+    }
+
+    private int longToY(double longitude)
+    {
+        return (int)(_scaleY*(_maxLong - (longitude - _minLong)));
     }
 }
 
@@ -215,11 +245,12 @@ public class MapDisplay extends JFrame
 
         Graph testGraph = new Graph();
             testGraph.addNode(0, 0);
-            testGraph.addNode(800,800);
             testGraph.addNode(250, 250, testImage);
             testGraph.addNode(300, 300, testImage);
             testGraph.addNode(450, 450, testImage);
-            testGraph.setColor(Color.GREEN);
+            testGraph.addNode(500, 300, testImage);
+            testGraph.addNode(800,800);
+            testGraph.setColor(Color.WHITE);
 
         ArrayList<Graph> testGraphList = new ArrayList<Graph>();
             testGraphList.add(testGraph);
