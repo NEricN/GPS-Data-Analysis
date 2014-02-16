@@ -24,7 +24,7 @@ public class Main {
       		System.exit(1); 
     	}
     	ResultSet rs = null; 
-    	String sql = "INSERT INTO courses (desig, term, units, grade) VALUES ('COMSC-265', 'FA2001', 4, 'A')"; 
+    	String sql = "SELECT lat, longi, img FROM info"; 
 
     	try { 
       		rs = stmt.executeQuery(sql); 
