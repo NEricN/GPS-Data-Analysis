@@ -12,13 +12,21 @@ public class Solver {
 	}
 
 	public ArrayList findClosestCenter(ArrayList nodes, ArrayList centers) {
-		for (int i = 0; i < centers.size(); i ++) {
-			for (Node node = nodes.get(i); )
-		}
 		
+		ArrayList<ArrayList> whichCenter = new ArrayList<ArrayList>();
+
+		for (int n = 0; n < nodes.size; n ++ ) {
+			ArrayList<Node> temp = new ArrayList<Node>();
+			Node centToAdd = centers.get(0);
+			for (int i = 1; i < centers.size(); i ++ ) {
+				if (centers.get(i).distanceToNode(n) > centToAdd) {
+					centToAdd = centers.get(i);
+					temp.add(centToAdd);
+				}		
+			}
+			
+			whichCenter.add(temp);
+		}
 	}
-
-	public 
-
 
 }
