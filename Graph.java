@@ -42,6 +42,11 @@ public class Graph {
             nodes.add(n);
             size++;
         }
+        
+        //Remove Node
+        public void removeNode(Node n) {
+        	nodes.remove(n);
+        }
 
 	//Return graph
 	public ArrayList getGraph() {
