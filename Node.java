@@ -27,7 +27,7 @@ public class Node
 	public double distanceToNode(Node node)
 	{
 		double distance = 
-		       haversine_distance(_latitude, node.latitude(),
+		       haversineDistance(_latitude, node.latitude(),
 								  _longitude, node.longitude());
 
 		_distances.put(node, distance);
@@ -37,7 +37,7 @@ public class Node
 
 	public double distanceToPoint(double lat, double lon)
 	{
-		return haversine_distance(_latitude, lat, _longitude, lon);
+		return haversineDistance(_latitude, lat, _longitude, lon);
 	}
 
 	public double longitude()
