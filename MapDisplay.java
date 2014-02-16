@@ -61,7 +61,6 @@ class MapCanvas extends JPanel implements MouseMotionListener
 
         Graphics2D g2d = (Graphics2D) g;
             g2d.setStroke(bs);
-            g2d.setColor(Color.blue);
 
         Dimension size = getSize();
         Insets insets = getInsets();
@@ -98,19 +97,48 @@ class MapCanvas extends JPanel implements MouseMotionListener
 
     public void mouseDragged(MouseEvent e)
     {
-        _message = "Here!";
-        _messageX = e.getX();
-        _messageY = e.getY();
-
-        System.out.println("kek");
-        repaint();
-        System.out.println("Toppest kek");
+        
     }
 
     public void mouseMoved(MouseEvent e)
     {
-        _message = "";
+        Node temp = closestToMouseRange(e.getX(), e.getY(), 50.0);
+        if(temp != null)
+        {
+            //System.out.printf("%.2f, %.2f\n", temp.latitude(), temp.longitude());
+            _message = "This node!";
+            _messageX = (int)(_scaleX*(temp.latitude() - _minLat));
+            _messageY = (int)(_scaleY*(_maxLong - (temp.longitude() - _minLong)));
+        }
+        else
+        {
+            _message = "";
+        }
         repaint();
+    }
+
+    private Node closestToMouseRange(int x, int y, double range)
+    {
+        Double minDistance = 9999999.0;
+        Node closestNode = null;
+        for(int i = 0; i < _graphs.size(); i++)
+        {
+            ArrayList<Node> nodes = _graphs.get(i).getGraph();
+            for(int j = 0; j < nodes.size(); j++)
+            {
+                Node node = nodes.get(j);
+                int nX = (int)(_scaleX*(node.latitude() - _minLat));
+                int nY = (int)(_scaleY*(_maxLong - (node.longitude() - _minLong)));
+
+                Double tempDistance = Math.sqrt((x - nX)*(x - nX) + (y - nY)*(y - nY));
+                if(tempDistance < minDistance)
+                {
+                    minDistance = tempDistance;
+                    closestNode = node;
+                }
+            }
+        }
+        return minDistance <= range ? closestNode : null;
     }
 }
 
