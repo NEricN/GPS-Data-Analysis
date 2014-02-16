@@ -256,7 +256,6 @@ public class MapDisplay extends JFrame
             testGraph.setColor(Color.BLUE);
 
         ArrayList<Graph> testGraphList = new ArrayList<Graph>();
-            //testGraphList.add(testGraph);
             
         ArrayList<Graph> clusters = Clusters.clustering(testGraph, Integer.parseInt(args[1]));
         for (int k = 0; k < clusters.size(); k++) {
