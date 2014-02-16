@@ -148,8 +148,11 @@ class MapCanvas extends JPanel implements MouseMotionListener
             _messageY = longToY(temp.longitude());
 
             _image = temp.picture();
-            _imageX = _messageX - (int)(_image.getWidth()/2);
-            _imageY = _messageY - (int)(_image.getHeight());
+            if(_image != null)
+            {
+                _imageX = _messageX - (int)(_image.getWidth()/2);
+                _imageY = _messageY - (int)(_image.getHeight());
+            }
         }
         else
         {
