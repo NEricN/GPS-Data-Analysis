@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -21,6 +22,9 @@ class MapCanvas extends JPanel implements MouseMotionListener
 
     private String _message;
         private int _messageX, _messageY;
+
+    private BufferedImage _image;
+        private int _imageX, _imageY;
 
     private double _minLat,
                    _maxLat,
@@ -86,6 +90,11 @@ class MapCanvas extends JPanel implements MouseMotionListener
         }
 
         g2d.drawString(_message, _messageX, _messageY);
+
+        if(_image != null)
+        {
+            g2d.drawImage(_image, _imageX, _imageY, null);
+        }
     }
 
     @Override
@@ -97,11 +106,6 @@ class MapCanvas extends JPanel implements MouseMotionListener
 
     public void mouseDragged(MouseEvent e)
     {
-        
-    }
-
-    public void mouseMoved(MouseEvent e)
-    {
         Node temp = closestToMouseRange(e.getX(), e.getY(), 50.0);
         if(temp != null)
         {
@@ -109,12 +113,27 @@ class MapCanvas extends JPanel implements MouseMotionListener
             _message = "This node!";
             _messageX = (int)(_scaleX*(temp.latitude() - _minLat));
             _messageY = (int)(_scaleY*(_maxLong - (temp.longitude() - _minLong)));
+
+            _image = temp.picture();
+            _imageX = _messageX - (int)(_image.getWidth()/2);
+            _imageY = _messageY - (int)(_image.getHeight());
         }
         else
         {
             _message = "";
+            _image = null;
         }
         repaint();
+    }
+
+    public void mouseMoved(MouseEvent e)
+    {
+        if(_image != null || _message != "")
+        {
+            _image = null;
+            _message = "";
+            repaint();
+        }
     }
 
     private Node closestToMouseRange(int x, int y, double range)
@@ -165,12 +184,14 @@ public class MapDisplay extends JFrame
 
     public static void main(String[] args)
     {
+        BufferedImage testImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
+
         Graph testGraph = new Graph();
             testGraph.addNode(0, 0);
             testGraph.addNode(800,800);
-            testGraph.addNode(250, 250);
-            testGraph.addNode(300, 300);
-            testGraph.addNode(450, 450);
+            testGraph.addNode(250, 250, testImage);
+            testGraph.addNode(300, 300, testImage);
+            testGraph.addNode(450, 450, testImage);
             testGraph.setColor(Color.GREEN);
 
         ArrayList<Graph> testGraphList = new ArrayList<Graph>();

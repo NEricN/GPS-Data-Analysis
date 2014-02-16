@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.awt.image.BufferedImage;
 
 public class Node
 {
@@ -6,13 +7,12 @@ public class Node
 
 	private double _latitude;
 	private double _longitude;
-	private String _picture;
 
 	private int _id;
 
 	private HashMap _distances;
 	
-	private String _pic;
+	private BufferedImage _picture;
 
 	private static int _idCount = 0;
 
@@ -20,7 +20,7 @@ public class Node
 	{
 		_latitude = latitude;
 		_longitude = longitude;
-		_picture = "";
+		_picture = null;
 
 		_distances = new HashMap();
 
@@ -28,10 +28,10 @@ public class Node
 		_idCount++;
 	}
 
-	public Node(double latitude, double longitude, String pic)
+	public Node(double latitude, double longitude, BufferedImage image)
 	{
 		this(latitude, longitude);
-		_picture = pic;
+		_picture = image;
 	}
 
 	public double distanceToNode(Node node)
@@ -65,6 +65,11 @@ public class Node
 		return _id;
 	}
 
+	public BufferedImage picture()
+	{
+		return _picture;
+	}
+
 	private double haversineDistance(double lat1,double lat2,
 									  double long1,double long2)
 	{
@@ -78,9 +83,4 @@ public class Node
 
 		return distance;
 	}
-	
-	/*public void setPic(Image pic)
-	{
-		myPic = pic;
-	}*/
 }
