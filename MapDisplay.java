@@ -133,7 +133,7 @@ class MapCanvas extends JPanel implements MouseMotionListener
 
     public void mouseDragged(MouseEvent e)
     {
-        removeClosestToMouseRange(e.getX(), e.getY(), 50.0);
+        removeClosestToMouseRange(e.getX(), e.getY(), 20.0);
         _image = null;
         _message = "";
         repaint();
@@ -141,7 +141,7 @@ class MapCanvas extends JPanel implements MouseMotionListener
 
     public void mouseMoved(MouseEvent e)
     {
-        Node temp = closestToMouseRange(e.getX(), e.getY(), 50.0);
+        Node temp = closestToMouseRange(e.getX(), e.getY(), 20.0);
         if(temp != null)
         {
             //System.out.printf("%.2f, %.2f\n", temp.latitude(), temp.longitude());
@@ -256,11 +256,15 @@ public class MapDisplay extends JFrame
                               Color.yellow, Color.magenta, Color.pink,
                               Color.gray, Color.darkGray, Color.lightGray};
         BufferedImage testImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
-        BufferedImage[] imageArr = {ImageIO.read(new File("test1.jpg")),
-                                    ImageIO.read(new File("test2.jpg")),
-                                    ImageIO.read(new File("test3.jpg")),
-                                    ImageIO.read(new File("test4.jpg")),
-                                    ImageIO.read(new File("test5.jpg"))};
+        ArrayList<BufferedImage> imageArr = new ArrayList<BufferedImage>();
+        for(int i = 1; i < 134; i++)
+        {
+            imageArr.add(ImageIO.read(new File("batch\\batch" + i + ".jpg")));
+        }
+        for(int i = 1; i < 23; i++)
+        {
+            imageArr.add(ImageIO.read(new File("fresh\\" + i + ".jpg")));
+        }
         /*BufferedReader br = new BufferedReader(new FileReader("test1.jpg"));
     	String str;
     
@@ -282,9 +286,9 @@ public class MapDisplay extends JFrame
             testGraph.addNode(0, 0);
         for(int i = 0; i < Integer.parseInt(args[0]); i++)
         {
-            testGraph.addNode(Math.random()*800, Math.random()*800, imageArr[i%5]);
+            testGraph.addNode(Math.random()*180, Math.random()*90, imageArr.get(i%155));
         }
-            testGraph.addNode(800,800);
+            testGraph.addNode(180,90);
             testGraph.setColor(Color.BLUE);
 
         ArrayList<Graph> testGraphList = new ArrayList<Graph>();

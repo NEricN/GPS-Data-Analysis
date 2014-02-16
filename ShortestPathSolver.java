@@ -10,7 +10,7 @@ public class ShortestPathSolver
 	public static ArrayList<Node> solve(Graph graph)
 	{
 		Solutions temp1 = DumbPathSolver2.solve(graph);
-		Solutions temp2 = (graph.getSize() < 40) ?AntColonySolver.solve(graph) : new Solutions(null, Double.POSITIVE_INFINITY);
+		Solutions temp2 = (graph.getSize() < 30) ?AntColonySolver.solve(graph) : new Solutions(null, Double.POSITIVE_INFINITY);
 
 		return temp1.distance < temp2.distance ? temp1.path : temp2.path;
 		//return temp1.path;
@@ -45,6 +45,7 @@ class AntColonySolver
 
 		for(int h = 0; h < ANTS; h++)
 		{
+			if(h%10000 == 0) System.out.printf("%d0 percent done.\n", h/10000);
 			ArrayList<Integer> routes = new ArrayList<Integer>();
 			ArrayList<Node> tempSol = new ArrayList<Node>();
 			_nodes = new ArrayList<Node>(graph.getGraph());
@@ -152,6 +153,8 @@ class DumbPathSolver2
 		Double minDistance = Double.POSITIVE_INFINITY;
 		for(int j = 0; j < graph.getSize(); j++)
 		{
+			double percent = ((double)j)/((double)(graph.getSize()));
+			if(j%(graph.getSize()/10) == 0) System.out.printf("%.0f percent done.\n", percent*100.0);
 			ArrayList<Node> nodes = new ArrayList<Node>(graph.getGraph());
 			ArrayList<Node> tempSolution = new ArrayList<Node>();
 			Node node1 = nodes.get(j), node2 = null;
