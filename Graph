@@ -1,0 +1,25 @@
+import java.util.ArrayList
+
+public class Graph {
+
+	private ArrayList<Nodes> nodes;
+	private int size = 0;	
+
+	public Graph() {
+		nodes = new ArrayList<Nodes>();
+	}
+
+	public void addNode(double lang, double longitude) {
+		Node temp = new Node(lang, longitude);
+		nodes.add(temp);
+		size ++ ;
+	}
+
+	public ArrayList getGraph() {
+		return nodes;
+	}
+
+	
+
+
+}
