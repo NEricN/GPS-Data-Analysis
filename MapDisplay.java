@@ -33,8 +33,8 @@ class MapCanvas extends JPanel implements MouseMotionListener
 
     public MapCanvas(int width, int height)
     {
-        _width = width;
-        _height = height;
+        _width = width - 100;
+        _height = height - 100;
 
         _message = "";
         _messageX = 0;
@@ -208,12 +208,12 @@ class MapCanvas extends JPanel implements MouseMotionListener
 
     private int latToX(double latitude)
     {
-        return (int)(_scaleX*(latitude - _minLat));
+        return (int)(50.0 + _scaleX*(latitude - _minLat));
     }
 
     private int longToY(double longitude)
     {
-        return (int)(_scaleY*(_maxLong - (longitude - _minLong)));
+        return (int)((_height + 50) - _scaleY*(_maxLong - (longitude - _minLong)));
     }
 }
 
@@ -248,7 +248,7 @@ public class MapDisplay extends JFrame
 
         Graph testGraph = new Graph();
             testGraph.addNode(0, 0);
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < Integer.parseInt(args[0]); i++)
         {
             testGraph.addNode(Math.random()*800, Math.random()*800, testImage);
         }
@@ -256,12 +256,15 @@ public class MapDisplay extends JFrame
             testGraph.setColor(Color.BLUE);
 
         ArrayList<Graph> testGraphList = new ArrayList<Graph>();
-            testGraphList.add(testGraph);
+            //testGraphList.add(testGraph);
             
-        ArrayList<Graph> clusters = Clusters.clustering(testGraph, 5);
+        ArrayList<Graph> clusters = Clusters.clustering(testGraph, Integer.parseInt(args[1]));
         for (int k = 0; k < clusters.size(); k++) {
-            clusters.get(k).setColor(colorArray[k % colorArray.length]);
-            testGraphList.add(clusters.get(k));
+            if(clusters.get(k).getSize() > 0)
+            {
+                clusters.get(k).setColor(colorArray[k % colorArray.length]);
+                testGraphList.add(clusters.get(k));
+            }
         }
 
         MapDisplay md = new MapDisplay(testGraphList);

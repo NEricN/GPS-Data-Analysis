@@ -27,7 +27,7 @@ public class Clusters {
         ArrayList<Node> nodes = g.getGraph();
         Random r = new Random();
         while (N > 0) {
-            int random = r.nextInt(g.size());
+            int random = r.nextInt(g.getSize());
             System.out.println(random);
             result.add(new Center(nodes.get(random).longitude(),
                                   nodes.get(random).latitude()));

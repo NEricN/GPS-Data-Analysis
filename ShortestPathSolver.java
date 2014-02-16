@@ -10,9 +10,10 @@ public class ShortestPathSolver
 	public static ArrayList<Node> solve(Graph graph)
 	{
 		Solutions temp1 = DumbPathSolver.solve(graph);
-		Solutions temp2 = AntColonySolver.solve(graph);
+		Solutions temp2 = (graph.getSize() < 40) ?AntColonySolver.solve(graph) : new Solutions(null, Double.POSITIVE_INFINITY);
 
 		return temp1.distance < temp2.distance ? temp1.path : temp2.path;
+		//return temp1.path;
 	}
 }
 
@@ -33,7 +34,7 @@ class AntColonySolver
 	private static ArrayList<Node> _nodes;
 	private static HashMap _pheromones = new HashMap();
 		//format is id(node1)*10000 + id(node2)
-	private static int ANTS = 10000;
+	private static int ANTS = 100000;
 	private static Random rand = new Random();
 
 	public static Solutions solve(Graph graph)
@@ -50,7 +51,7 @@ class AntColonySolver
 			int k = rand.nextInt(_nodes.size());
 			double tempDistance = 0;
 			Node node1 = _nodes.get(k),
-				 node2;
+				 node2 = null;
 				_nodes.remove(k);
 				tempSol.add(node1);
 			while(_nodes.size() > 0)
@@ -72,6 +73,10 @@ class AntColonySolver
 				tempSol.add(node2);
 				node1 = node2;
 			}
+			node1 = (Node)graph.getGraph().get(k);
+			routes.add(calcHashId(node2.id(), node1.id()));
+			tempDistance += node2.distanceToNode(node1);
+			tempSol.add(node1);
 
 			if(tempDistance < distance)
 			{
@@ -106,7 +111,7 @@ class DumbPathSolver
 	{
 		ArrayList<Node> solution = new ArrayList<Node>();
 		ArrayList<Node> nodes = new ArrayList<Node>(graph.getGraph());
-		Node node1 = nodes.get(0), node2;
+		Node node1 = nodes.get(0), node2 = null;
 			nodes.remove(0);
 			solution.add(node1);
 		Double dist;
@@ -129,6 +134,11 @@ class DumbPathSolver
 			nodes.remove(node2);
 			solution.add(node2);
 		}
+
+		node1 = (Node)graph.getGraph().get(0);
+		solution.add(node1);
+		totalDistance += node2.distanceToNode(node1);
+
 		System.out.printf("Dumb : %.2f\n", totalDistance);
 		return new Solutions(solution, totalDistance);
 	}
