@@ -13,6 +13,22 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.File;
+import java.io.DataInputStream;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+
+
 
 public class ImageDecode {
 
@@ -25,16 +41,17 @@ public class ImageDecode {
         return image;
     }
 
-    public static String encodeImage(String file) {
+    public static void encodeImage(String file) {
+
     	try {
     	File f = new File(file);
     	BufferedImage img = ImageIO.read(f);
-    	if (_image != null) {
+    	if (img != null) {
 			try {
 				java.io.ByteArrayOutputStream os= new java.io.ByteArrayOutputStream();
-				ImageIO.write(_image, "jpg", os);
+				ImageIO.write(img, "jpg", os);
 				byte[] data= os.toByteArray();
-				image = new sun.misc.BASE64Encoder().encode(data);
+				String image = new sun.misc.BASE64Encoder().encode(data);
 
 				//write to file the encoded character
 				FileOutputStream fout=null;
@@ -56,28 +73,7 @@ e.printStackTrace();
 }
 }
 
-    public static void main(String[] args) throws IOException {
-    	BufferedReader br = new BufferedReader(new FileReader("test.txt"));
-    	String str;
-    
-        	StringBuilder sb = new StringBuilder();
-        	String line = br.readLine();
 
-        while (line != null) {
-            sb.append(line);
-            sb.append("\n");
-            line = br.readLine();
-        }
-           str =  sb.toString();
-    	 
-    	//System.out.println(str);
-    	BufferedImage img = decodeImage(str);
-    	ImageIcon icon = new ImageIcon(img);
-    	JLabel lbl = new JLabel(icon);
-    	JFrame frame = new JFrame();
-    	frame.setVisible(true);
-    	add(icon);
-   }
 
 
 
