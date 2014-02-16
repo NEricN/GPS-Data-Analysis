@@ -1,10 +1,10 @@
-import java.util.ArrayList
+import java.util.ArrayList;
 
 //Graph API to create new graph, not best implementation....
 //but good ehough for now
 public class Graph {
 	//Store nodes of graph in an arraylist
-	private ArrayList<Nodes> nodes;
+	private ArrayList<Node> nodes;
 	
 	//Number of nodes in graph
 	private int size = 0;
@@ -17,16 +17,16 @@ public class Graph {
 	
 	//constructs new graph;
 	public Graph() {
-		nodes = new ArrayList<Nodes>();
+		nodes = new ArrayList<Node>();
 	}
 	
 	//Add new node to the graph, updates size and max/min values
 	public void addNode(double latitude, double longitude) {
-		maxLat = (latitude > maxLang)? latitude: maxLat;
-		minLat = (latitude < minLang)? latitude: minLat;
-		maxLong = (longitude > maxLong)? longitude: maxLong;
-		minLong = (longitude < minLang)? longitude: minLong;
-		Node temp = new Node(lang, longitude);
+		maxLat = (latitude > maxLat) ? latitude: maxLat;
+		minLat = (latitude < minLat) ? latitude: minLat;
+		maxLong = (longitude > maxLong) ? longitude: maxLong;
+		minLong = (longitude < minLong) ? longitude: minLong;
+		Node temp = new Node(latitude, longitude);
 		nodes.add(temp);
 		size ++ ;
 	}

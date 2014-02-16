@@ -11,7 +11,7 @@ public class Node
 
 	private HashMap _distances;
 	
-	private Image myPic;
+	//private Image myPic;
 
 	private static int _idCount = 0;
 
@@ -71,7 +71,8 @@ public class Node
 		return distance;
 	}
 	
-	public void setPic(Image pic) {
+	/*public void setPic(Image pic)
+	{
 		myPic = pic;
-	}
+	}*/
 }
