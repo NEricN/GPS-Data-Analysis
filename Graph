@@ -22,8 +22,8 @@ public class Graph {
 	
 	//Add new node to the graph, updates size and max/min values
 	public void addNode(double latitude, double longitude) {
-		maxLang = (latitude > maxLang)? latitude: maxLang;
-		minLang = (latitude < minLang)? latitude: minLang;
+		maxLat = (latitude > maxLang)? latitude: maxLat;
+		minLat = (latitude < minLang)? latitude: minLat;
 		maxLong = (longitude > maxLong)? longitude: maxLong;
 		minLong = (longitude < minLang)? longitude: minLong;
 		Node temp = new Node(lang, longitude);
