@@ -22,14 +22,24 @@ public class Graph {
 	
 	//Add new node to the graph, updates size and max/min values
 	public void addNode(double latitude, double longitude) {
-		maxLat = (latitude > maxLat) ? latitude: maxLat;
-		minLat = (latitude < minLat) ? latitude: minLat;
-		maxLong = (longitude > maxLong) ? longitude: maxLong;
-		minLong = (longitude < minLong) ? longitude: minLong;
+		maxLat = (latitude > maxLat)? latitude: maxLat;
+		minLat = (latitude < minLat)? latitude: minLat;
+		maxLong = (longitude > maxLong)? longitude: maxLong;
+		minLong = (longitude < minLong)? longitude: minLong;
 		Node temp = new Node(latitude, longitude);
 		nodes.add(temp);
-		size ++ ;
+		size ++;
 	}
+
+	//Add new node
+	public void addNode(Node n) {
+            maxLat = (n.latitude() > maxLat)? n.latitude(): maxLat;
+            minLat = (n.latitude() < minLat)? n.latitude(): minLat;
+            maxLong = (n.longitude() > maxLong)? n.longitude(): maxLong;
+            minLong = (n.longitude() < minLong)? n.longitude(): minLong;
+            nodes.add(n);
+            size++;
+        }
 
 	//Return graph
 	public ArrayList getGraph() {
