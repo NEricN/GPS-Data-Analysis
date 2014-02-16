@@ -1,12 +1,13 @@
+//Methods for clustering and coordinating rescue
 public class Solver {
-
-	public ArrayList clustering(Graph g) {
+	
+	Cluster
+	public ArrayList<Graph> clustering(Graph g, int N) {
 		ArrayList nodes = g.getGraph();
-		for (int i = 0; i <= g.size; i ++ ) {
-
-		}
+		
 	}
 
+	//Find best route for each graph
 	public ArrayList findRoute(Graph g) {
 
 	}
