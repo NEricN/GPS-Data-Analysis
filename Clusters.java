@@ -99,7 +99,7 @@ public class Clusters {
         ArrayList<Center> result = new ArrayList<Center>();
         Random r = new Random();
         ArrayList<Node> nodes = g.getGraph();
-        int random = r.nextInt(g.size());
+        int random = r.nextInt(g.getSize());
         Double lat, longi;
         while (result.size() != N) {
             if (result.size() == 0) {
@@ -127,7 +127,7 @@ public class Clusters {
                 }
             }
             if (longi == 0.0) {
-                random = r.nextInt(g.size());
+                random = r.nextInt(g.getSize());
                 Node node2 = nodes.get(random);
                 longi = node2.longitude();
                 lat = node2.latitude();
