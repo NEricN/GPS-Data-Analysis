@@ -1,0 +1,24 @@
+public class Solver {
+
+	public ArrayList clustering(Graph g) {
+		ArrayList nodes = g.getGraph();
+		for (int i = 0; i <= g.size; i ++ ) {
+
+		}
+	}
+
+	public ArrayList findRoute(Graph g) {
+
+	}
+
+	public ArrayList findClosestCenter(ArrayList nodes, ArrayList centers) {
+		for (int i = 0; i < centers.size(); i ++) {
+			for (Node node = nodes.get(i); )
+		}
+		
+	}
+
+	public 
+
+
+}
