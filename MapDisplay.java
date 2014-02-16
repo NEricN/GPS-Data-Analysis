@@ -162,7 +162,7 @@ class MapCanvas extends JPanel implements MouseMotionListener
     {
         Double minDistance = 9999999.0;
         Node closestNode = null;
-        ArrayList<Node> nodeList = null;
+        Graph graph = null;
         for(int i = 0; i < _graphs.size(); i++)
         {
             ArrayList<Node> nodes = _graphs.get(i).getGraph();
@@ -177,13 +177,13 @@ class MapCanvas extends JPanel implements MouseMotionListener
                 {
                     minDistance = tempDistance;
                     closestNode = node;
-                    nodeList = nodes;
+                    graph = _graphs.get(i);
                 }
             }
         }
         if(minDistance <= range)
         {
-            nodeList.remove(closestNode);
+            graph.removeNode(closestNode);
         }
     }
 }

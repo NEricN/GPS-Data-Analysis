@@ -25,13 +25,7 @@ public class Graph {
 	
 	//Add new node to the graph, updates size and max/min values
 	public void addNode(double latitude, double longitude) {
-		maxLat = (latitude > maxLat)? latitude: maxLat;
-		minLat = (latitude < minLat)? latitude: minLat;
-		maxLong = (longitude > maxLong)? longitude: maxLong;
-		minLong = (longitude < minLong)? longitude: minLong;
-		Node temp = new Node(latitude, longitude);
-		nodes.add(temp);
-		size ++;
+		addNode(latitude, longitude, null);
 	}
 
 	public void addNode(double latitude, double longitude, BufferedImage image) {
@@ -55,9 +49,10 @@ public class Graph {
         }
         
         //Remove Node
-        public void removeNode(Node n) {
-        	nodes.remove(n);
-        }
+    public void removeNode(Node n) {
+      	nodes.remove(n);
+      	size--;
+    }
 
 	//Return graph
 	public ArrayList getGraph() {
