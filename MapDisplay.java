@@ -60,8 +60,8 @@ class MapCanvas extends JPanel implements MouseMotionListener
         _maxLat = (_maxLat > graph.getMaxLat()) ? _maxLat : graph.getMaxLat();
         _maxLong = (_maxLong > graph.getMaxLong()) ? _maxLong : graph.getMaxLong();
 
-        _scaleX = _width/(_maxLat - _minLat);
-        _scaleY = _height/(_maxLong - _minLong);
+        _scaleX = _width/(_maxLong - _minLong);
+        _scaleY = _height/(_maxLat - _minLat);
     }
 
     private void drawMap(Graphics g)
@@ -91,8 +91,8 @@ class MapCanvas extends JPanel implements MouseMotionListener
             {
                 Node node = nodes.get(i);
 
-                int x = latToX(node.latitude());
-                int y = longToY(node.longitude());
+                int y = latToY(node.latitude());
+                int x = longToX(node.longitude());
 
                 g2d.drawLine(x, y, x, y);
             }
@@ -105,8 +105,8 @@ class MapCanvas extends JPanel implements MouseMotionListener
                 for(int i = 0; i < nodes.size() - 1; i++)
                 {
                     node2 = nodes.get(i + 1);
-                    g2d.drawLine(latToX(node1.latitude()), longToY(node1.longitude()),
-                                 latToX(node2.latitude()), longToY(node2.longitude()));
+                    g2d.drawLine(longToX(node1.longitude()), latToY(node1.latitude()),
+                                 longToX(node2.longitude()), latToY(node2.latitude()));
 
                     node1 = node2;
                 }
@@ -144,8 +144,8 @@ class MapCanvas extends JPanel implements MouseMotionListener
         {
             //System.out.printf("%.2f, %.2f\n", temp.latitude(), temp.longitude());
             _message = "This node!";
-            _messageX = latToX(temp.latitude());
-            _messageY = longToY(temp.longitude());
+            _messageY = latToY(temp.latitude());
+            _messageX = longToX(temp.longitude());
 
             _image = temp.picture();
             if(_image != null)
@@ -172,8 +172,8 @@ class MapCanvas extends JPanel implements MouseMotionListener
             for(int j = 0; j < nodes.size(); j++)
             {
                 Node node = nodes.get(j);
-                int nX = latToX(node.latitude());
-                int nY = longToY(node.longitude());
+                int nY = latToY(node.latitude());
+                int nX = longToX(node.longitude());
 
                 Double tempDistance = Math.sqrt((x - nX)*(x - nX) + (y - nY)*(y - nY));
                 if(tempDistance < minDistance)
@@ -197,8 +197,8 @@ class MapCanvas extends JPanel implements MouseMotionListener
             for(int j = 0; j < nodes.size(); j++)
             {
                 Node node = nodes.get(j);
-                int nX = latToX(node.latitude());
-                int nY = longToY(node.longitude());
+                int nY = latToY(node.latitude());
+                int nX = longToX(node.longitude());
 
                 Double tempDistance = Math.sqrt((x - nX)*(x - nX) + (y - nY)*(y - nY));
                 if(tempDistance < minDistance)
@@ -215,14 +215,14 @@ class MapCanvas extends JPanel implements MouseMotionListener
         }
     }
 
-    private int latToX(double latitude)
+    private int latToY(double latitude)
     {
-        return (int)(50.0 + _scaleX*(latitude - _minLat));
+        return (int)((_height + 50.0) - _scaleY*(_maxLat - (latitude - _minLat)));
     }
 
-    private int longToY(double longitude)
+    private int longToX(double longitude)
     {
-        return (int)((_height + 50) - _scaleY*(_maxLong - (longitude - _minLong)));
+        return (int)(50 + _scaleX*(longitude - _minLong));
     }
 }
 
