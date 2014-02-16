@@ -9,7 +9,7 @@ public class Parser {
 
 	public parseFile (File file) {
 		double lat, longi;
-		Image pic;
+		String pic;
 		Scanner inputStream = new Scanner(file);
 		inputStream.useDelimiter(",");
 		while (inputStream.hasNext()) {
