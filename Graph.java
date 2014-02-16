@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.awt.Color;
 
 //Graph API to create new graph, not best implementation....
 //but good ehough for now
@@ -14,6 +15,7 @@ public class Graph {
 	private double minLat = Double.MAX_VALUE;
 	private double maxLong = Double.MIN_VALUE;
 	private double minLong = Double.MAX_VALUE;
+	private Color _color;
 	
 	//constructs new graph;
 	public Graph() {
@@ -64,5 +66,13 @@ public class Graph {
 	//Return smallest longitude
 	public double getMinLong() {
 		return minLong;
+	}
+
+	public Color getColor() {
+		return _color;
+	}
+
+	public void setColor(Color color) {
+		_color = color;
 	}
 }

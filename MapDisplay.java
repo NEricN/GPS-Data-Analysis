@@ -6,14 +6,15 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-class MapCanvas extends JPanel implements MouseListener
+class MapCanvas extends JPanel implements MouseMotionListener
 {
-    private Graph _graph;
+    private ArrayList<Graph> _graphs;
     private int _width, _height;
 
     private double _scaleX, _scaleY;
@@ -21,20 +22,36 @@ class MapCanvas extends JPanel implements MouseListener
     private String _message;
         private int _messageX, _messageY;
 
-    public MapCanvas(Graph graph, int width, int height)
+    private double _minLat,
+                   _maxLat,
+                   _minLong,
+                   _maxLong;
+
+    public MapCanvas(int width, int height)
     {
-        _graph = graph;
         _width = width;
         _height = height;
-
-        _scaleX = width/(_graph.getMaxLat() - _graph.getMinLat());
-        _scaleY = height/(_graph.getMaxLong() - _graph.getMinLong());
 
         _message = "";
         _messageX = 0;
         _messageY = 0;
 
-        addMouseListener(this);
+        addMouseMotionListener(this);
+
+        _graphs = new ArrayList<Graph>();
+    }
+
+    public void addGraph(Graph graph)
+    {
+        _graphs.add(graph);
+
+        _minLat = (_minLat < graph.getMinLat()) ? _minLat : graph.getMinLat();
+        _minLong = (_minLong < graph.getMinLong()) ? _minLong : graph.getMinLong();
+        _maxLat = (_maxLat > graph.getMaxLat()) ? _maxLat : graph.getMaxLat();
+        _maxLong = (_maxLong > graph.getMaxLong()) ? _maxLong : graph.getMaxLong();
+
+        _scaleX = _width/(_maxLat - _minLat);
+        _scaleY = _height/(_maxLong - _minLong);
     }
 
     private void drawMap(Graphics g)
@@ -52,16 +69,21 @@ class MapCanvas extends JPanel implements MouseListener
         double w = size.width - insets.left - insets.right;
         double h = size.height - insets.top - insets.bottom;
 
-        ArrayList<Node> nodes = _graph.getGraph();
-
-        for(int i = 0; i < nodes.size(); i++)
+        for(int j = 0; j < _graphs.size(); j++)
         {
-            Node node = nodes.get(i);
+            ArrayList<Node> nodes = _graphs.get(j).getGraph();
 
-            int x = (int)(_scaleX*(node.latitude() - _graph.getMinLat()));
-            int y = (int)(_scaleY*(_graph.getMaxLong() - (node.longitude() - _graph.getMinLong())));
+            g2d.setColor(_graphs.get(j).getColor());
 
-            g2d.drawLine(x, y, x, y);
+            for(int i = 0; i < nodes.size(); i++)
+            {
+                Node node = nodes.get(i);
+
+                int x = (int)(_scaleX*(node.latitude() - _minLat));
+                int y = (int)(_scaleY*(_maxLong - (node.longitude() - _minLong)));
+
+                g2d.drawLine(x, y, x, y);
+            }
         }
 
         g2d.drawString(_message, _messageX, _messageY);
@@ -74,47 +96,39 @@ class MapCanvas extends JPanel implements MouseListener
         drawMap(g);
     }
 
-    public void mousePressed(MouseEvent e)
+    public void mouseDragged(MouseEvent e)
     {
-        _message = "Pressed!";
+        _message = "Here!";
         _messageX = e.getX();
         _messageY = e.getY();
 
         System.out.println("kek");
         repaint();
+        System.out.println("Toppest kek");
     }
 
-    public void mouseReleased(MouseEvent e)
+    public void mouseMoved(MouseEvent e)
     {
         _message = "";
         repaint();
-    }
-
-    public void mouseExited(MouseEvent e)
-    {
-    }
-
-    public void mouseEntered(MouseEvent e)
-    {
-    }
-
-    public void mouseClicked(MouseEvent e)
-    {
-    }
-
-    public void mouseDragged(MouseEvent e)
-    {
     }
 }
 
 public class MapDisplay extends JFrame
 {
-    public MapDisplay(Graph graph)
+    public MapDisplay(ArrayList<Graph> graphs)
     {
         setTitle("MapDisplay");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        add(new MapCanvas(graph, 800, 800));
+        MapCanvas drawer = new MapCanvas(800, 800);
+
+        for(int i = 0; i < graphs.size(); i++)
+        {
+            drawer.addGraph(graphs.get(i));
+        }
+
+        add(drawer);
 
         setSize(800, 800);
 
@@ -129,8 +143,12 @@ public class MapDisplay extends JFrame
             testGraph.addNode(250, 250);
             testGraph.addNode(300, 300);
             testGraph.addNode(450, 450);
+            testGraph.setColor(Color.GREEN);
 
-        MapDisplay md = new MapDisplay(testGraph);
+        ArrayList<Graph> testGraphList = new ArrayList<Graph>();
+            testGraphList.add(testGraph);
+
+        MapDisplay md = new MapDisplay(testGraphList);
                md.setVisible(true);
     }
 }
