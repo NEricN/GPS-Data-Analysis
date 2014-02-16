@@ -245,12 +245,12 @@ public class MapDisplay extends JFrame
 
         Graph testGraph = new Graph();
             testGraph.addNode(0, 0);
-            testGraph.addNode(250, 250, testImage);
-            testGraph.addNode(300, 300, testImage);
-            testGraph.addNode(450, 450, testImage);
-            testGraph.addNode(500, 300, testImage);
+        for(int i = 0; i < 50; i++)
+        {
+            testGraph.addNode(Math.random()*800, Math.random()*800, testImage);
+        }
             testGraph.addNode(800,800);
-            testGraph.setColor(Color.WHITE);
+            testGraph.setColor(Color.BLUE);
 
         ArrayList<Graph> testGraphList = new ArrayList<Graph>();
             testGraphList.add(testGraph);

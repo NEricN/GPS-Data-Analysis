@@ -76,10 +76,12 @@ public class Node
 		double dLat = lat2 - lat1;
 		double dLong = long2 - long1;
 
-		double distance = 2*EARTH_DISTANCE*Math.asin(Math.sqrt(
+		/*double distance = 2*EARTH_DISTANCE*Math.asin(Math.sqrt(
 			               Math.sin(dLat/2)*Math.sin(dLat/2) +
 			               Math.cos(lat1)*Math.cos(lat2)*
-			               Math.sin(dLong/2)*Math.sin(dLong/2)));
+			               Math.sin(dLong/2)*Math.sin(dLong/2)));*/
+
+		double distance = Math.sqrt(dLat*dLat + dLong*dLong);
 
 		return distance;
 	}

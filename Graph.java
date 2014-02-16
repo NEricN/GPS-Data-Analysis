@@ -59,6 +59,10 @@ public class Graph {
       	_shortestPath = null;
     }
 
+    public int getSize() {
+    	return size;
+    }
+
 	//Return graph
 	public ArrayList getGraph() {
 		return nodes;
@@ -95,7 +99,9 @@ public class Graph {
 	public ArrayList<Node> getShortestPath() {
 		if(_shortestPath == null)
 		{
-			_shortestPath = nodes;
+			System.out.println("Starting");
+			_shortestPath = ShortestPathSolver.solve(this);
+			System.out.println("Ended");
 		}
 		return _shortestPath;
 	}
